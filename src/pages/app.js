@@ -1,16 +1,30 @@
-import React from 'react';
-import { Router } from "@reach/router"
-import Home from '../components/Home';
-import About from '../components/About';
-import Contact from '../components/Contact';
+import React from 'react'
+import { Router, Link } from "@reach/router"
 
-const App = () => {
-  return (
-    <Router basepath="/app">
-      <Home path="/Home" />
-      <About path="/About" />
-      <Contact path="/Contact" />
-    </Router>
-  )
-}
+const App = () => (
+  <div>
+    <h1>Tutorial!</h1>
+    <nav>
+      <Link to="app">Home</Link>{" "}
+      <Link to="dashboard">Dashboard</Link>
+      <Router>
+        <Home path="/app" message="Hi! Welcome"/>
+        <Dashboard path="/dashboard" message="This is your dashboard"/>
+      </Router>
+    </nav>
+  </div>
+);
+
+const Home = ({message}) => (
+  <div>
+    <h2>{message} Home</h2>
+  </div>
+);
+
+const Dashboard = ({message}) => (
+  <div>
+    <h2>{message}</h2>
+  </div>
+);
+
 export default App
