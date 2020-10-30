@@ -1,4 +1,4 @@
-class State {
+class CurrentState {
     static state = {};
   
     static get(key) {
@@ -21,4 +21,4 @@ class State {
     }
 }
 
-export default State
+export default CurrentState

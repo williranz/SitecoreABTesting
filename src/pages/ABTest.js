@@ -1,16 +1,21 @@
 import React from 'react'
-import cookie from "js-cookie";
 import ContentA from "../components/contentA"
 import ContentB from "../components/contentB"
 import ContentC from "../components/contentC"
+import CookieManager from "../components/cookieManager"
 import CurrentState from "../components/state"
 
-const ABTest = ({experience, sessionId}) => {   
-    if(!cookie.get('UserId'))
-    {
-        cookie.set('UserId', sessionId);        
+const ABTest = () => {
+    
+    let sessionId = CookieManager.getCookie();
+    let experiences = [0, 1, 2];
+   
+    if (sessionId === undefined) {
+        sessionId = CurrentState.next('experience');
+        console.log(`Next state: ${sessionId}`);
+        CookieManager.setCookie(sessionId);
     }
-    getServerSideProps();
+    const experience = experiences[sessionId % experiences.length];
     return (
       <div>
         <h1>Wellcome to AB testing</h1>
@@ -19,8 +24,8 @@ const ABTest = ({experience, sessionId}) => {
     ); 
 }
 
-function SwitchCase(props) {
-    switch(props.experience) {
+function SwitchCase(experience) {
+    switch(experience) {
       case 0:
         return <ContentA/>;
       case 1:
@@ -32,8 +37,9 @@ function SwitchCase(props) {
     }
 }
 
-function getServerSideProps() {
-    let sessionId = cookie.get('UserId');
+export async function getServerSideProps() {
+    let sessionId = CookieManager.getCookie();
+    alert(sessionId);
     let experiences = [0, 1, 2];
 
     if (sessionId === undefined) {
